@@ -86,6 +86,32 @@ names(intervalMeans)[1]<- "interval"
 dat[is.na(dat$steps),"steps"] <- merge( dat[is.na(dat$steps),] , intervalMeans , by  = "interval")$x
 ```
 
+Finally I will recalculate the mean and median using the new strategy and showing it via a histogram
+
+```r
+dayMeans <- aggregate( dat$steps , 
+    			by=list( dat$date ) ,
+				FUN = mean , na.rm = TRUE )
+hist(dayMeans$x)
+```
+
+![](PA_template_files/figure-html/unnamed-chunk-6-1.png) 
+
+```r
+print(paste0("The mean number of steps taken on a daily basis is :", round(mean(dayMeans$x , na.rm = TRUE ), 0) ))
+```
+
+```
+## [1] "The mean number of steps taken on a daily basis is :37"
+```
+
+```r
+print(paste0("The median number of steps taken on a daily basis is :", round(median(dayMeans$x , na.rm = TRUE ), 0) ))
+```
+
+```
+## [1] "The median number of steps taken on a daily basis is :38"
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
 The easiest way to study this value is to recereate the interval means calculation, also tagging whether it is a weekend or weekday.  
@@ -114,4 +140,4 @@ xyplot( x ~ interval | dateVal , data = intervalMeans,
       layout = c(1,2))
 ```
 
-![](PA_template_files/figure-html/unnamed-chunk-7-1.png) 
+![](PA_template_files/figure-html/unnamed-chunk-8-1.png) 
