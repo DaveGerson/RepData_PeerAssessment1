@@ -20,14 +20,31 @@ To compute this calculation I compute both the mean steps taken by day and then 
 #What is mean total number of steps taken per day?
 dayMeans <- aggregate( dat$steps , 
 				by=list( dat$date ) ,
-				FUN = mean , na.rm = TRUE )
+				FUN = sum , na.rm = TRUE )
+
+hist( dayMeans$x )
+```
+
+![](PA_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+```r
 print(paste0("The mean number of steps taken on a daily basis is :", round(mean(dayMeans$x , na.rm = TRUE ), 0) ))
 ```
 
 ```
-## [1] "The mean number of steps taken on a daily basis is :37"
+## [1] "The mean number of steps taken on a daily basis is :9354"
 ```
 
+To calculate the median number of steps we perform a very similar calculaion 
+
+```r
+#What is mean total number of steps taken per day?
+print(paste0("The median number of steps taken on a daily basis is :", round(median(dayMeans$x , na.rm = TRUE ), 0) ))
+```
+
+```
+## [1] "The median number of steps taken on a daily basis is :10395"
+```
 
 ## What is the average daily activity pattern?
 This calculation is much more straightforward because of the lack of NA statements and the requirement for just one level of aggregation. For this I simply take the mean by intervals and plot that to a chart which shows the average daily pattern. the data is already ordered sequentially so no additional processing is needed. 
@@ -47,7 +64,17 @@ main = "Average daily Activity Pattern" ,
 )
 ```
 
-![](PA_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](PA_template_files/figure-html/unnamed-chunk-4-1.png) 
+
+
+```r
+print(paste0("The interval that contains the maximum number of steps is : ",
+             intervalMeans[intervalMeans$x == max(intervalMeans$x), 1]))
+```
+
+```
+## [1] "The interval that contains the maximum number of steps is : 835"
+```
 
 ## Imputing missing values
 I first collect summary statistics around the steps, dates, and intervals to discover where possible null values are.  
@@ -95,7 +122,7 @@ dayMeans <- aggregate( dat$steps ,
 hist(dayMeans$x)
 ```
 
-![](PA_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](PA_template_files/figure-html/unnamed-chunk-8-1.png) 
 
 ```r
 print(paste0("The mean number of steps taken on a daily basis is :", round(mean(dayMeans$x , na.rm = TRUE ), 0) ))
@@ -140,4 +167,4 @@ xyplot( x ~ interval | dateVal , data = intervalMeans,
       layout = c(1,2))
 ```
 
-![](PA_template_files/figure-html/unnamed-chunk-8-1.png) 
+![](PA_template_files/figure-html/unnamed-chunk-10-1.png) 

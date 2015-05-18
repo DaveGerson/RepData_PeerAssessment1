@@ -23,10 +23,18 @@ To compute this calculation I compute both the mean steps taken by day and then 
 #What is mean total number of steps taken per day?
 dayMeans <- aggregate( dat$steps , 
 				by=list( dat$date ) ,
-				FUN = mean , na.rm = TRUE )
+				FUN = sum , na.rm = TRUE )
+
+hist( dayMeans$x )
+
 print(paste0("The mean number of steps taken on a daily basis is :", round(mean(dayMeans$x , na.rm = TRUE ), 0) ))
 ```
 
+To calculate the median number of steps we perform a very similar calculaion 
+```{r , cache=TRUE}
+#What is mean total number of steps taken per day?
+print(paste0("The median number of steps taken on a daily basis is :", round(median(dayMeans$x , na.rm = TRUE ), 0) ))
+```
 
 ## What is the average daily activity pattern?
 This calculation is much more straightforward because of the lack of NA statements and the requirement for just one level of aggregation. For this I simply take the mean by intervals and plot that to a chart which shows the average daily pattern. the data is already ordered sequentially so no additional processing is needed. 
@@ -43,6 +51,11 @@ ylab = "average steps" ,
 main = "Average daily Activity Pattern" ,
  type = "l"
 )
+```
+
+```{r , cache=TRUE}
+print(paste0("The interval that contains the maximum number of steps is : ",
+             intervalMeans[intervalMeans$x == max(intervalMeans$x), 1]))
 ```
 
 ## Imputing missing values
